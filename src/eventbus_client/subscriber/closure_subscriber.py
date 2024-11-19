@@ -1,13 +1,13 @@
 from typing import Callable
-
+from abc import ABC
 from src.event.event import Event
-from src.subscriber.subscriber import Subscriber
+from src.eventbus_client.subscriber.subscriber import Subscriber
 
 
-class ClosureSubscriber(Subscriber):
+class ClosureSubscriber(Subscriber, ABC):
 
     def __init__(self, on_event_callback: Callable[[Event], None]):
         self.__on_event_callback = on_event_callback
 
-    async def on_event(self, event: Event):
+    async def on_event(self, topic_name: str, event: Event):
         self.__on_event_callback(event)

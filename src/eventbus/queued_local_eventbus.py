@@ -11,7 +11,7 @@ MAX_WORKERS = 3
 MAX_QUEUE_SIZE = 0
 
 
-class QueuedEventBus(EventBus):
+class QueuedLocalEventBus(EventBus):
 
     def __init__(self, max_queue_size=MAX_QUEUE_SIZE, n_workers=MAX_WORKERS):
 
@@ -34,13 +34,13 @@ class QueuedEventBus(EventBus):
 
             topic_name, event = self.__queue.get()
 
-            topic_subscription = self._topics_subscriptions.get(topic_name)
+            topic_subscriptions = self.subscriptions.get(topic_name, [])
 
             logging.debug(
-                f"new event {event} on topic {topic_subscription.topic.name}, notify subscribers: {topic_subscription.subscribers}")
+                f"new event {event} on topic {topic_name}, notify subscribers: {topic_subscriptions}")
 
-            if len(topic_subscription.subscribers) == 0:
+            if len(topic_subscriptions) == 0:
                 return
 
-            for subscriber in topic_subscription.subscribers:
+            for subscriber in topic_subscriptions:
                 asyncio.run(subscriber.on_event(event))

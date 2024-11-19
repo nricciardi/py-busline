@@ -1,19 +1,37 @@
 from abc import ABC, abstractmethod
-from typing import Dict
+from typing import Dict, List
 from src.eventbus.exceptions import TopicNotFound
-from src.subscriber.subscriber import Subscriber
-from src.eventbus.topic import Topic, TopicSubscriptions
+from src.eventbus_client.subscriber.subscriber import Subscriber
+from src.eventbus.topic import Topic
 from src.event.event import Event
 
 
 
 class EventBus(ABC):
 
+    _instance = None    # singleton
+
     def __init__(self):
-        self._topics_subscriptions: Dict[str, TopicSubscriptions] = {}
+        self.__topics: Dict[str, Topic] = {}
+        self.__subscriptions: Dict[str, List[Subscriber]] = {}
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+
+        return cls._instance
 
     def add_topic(self, topic: Topic):
-        self._topics_subscriptions[topic.name] = TopicSubscriptions(topic)
+        self.__topics[topic.name] = topic
+        self.__subscriptions[topic.name] = []
+
+    @property
+    def topics(self) -> Dict[str, Topic]:
+        return self.__topics
+
+    @property
+    def subscriptions(self) -> Dict[str, List[Subscriber]]:
+        return self.__subscriptions
 
     def add_subscriber(self, topic_name: str, subscriber: Subscriber, raise_if_topic_missed: bool = False):
         """
@@ -25,30 +43,33 @@ class EventBus(ABC):
         :return:
         """
 
-        if topic_name not in self._topics_subscriptions.keys():
+        if topic_name not in self.__topics:
             if raise_if_topic_missed:
                 raise TopicNotFound(f"topic '{topic_name}' not found")
 
             else:
-                self._topics_subscriptions[topic_name] = TopicSubscriptions(Topic(topic_name))
+                self.add_topic(Topic(topic_name))
 
-        self._topics_subscriptions[topic_name].subscribers.append(subscriber)
-        subscriber.on_subscription(topic_name)
+        self.__subscriptions[topic_name].append(subscriber)
 
-    def remove_subscriber(self, subscriber: Subscriber, topic_name: str = None):
+    def remove_subscriber(self, subscriber: Subscriber, topic_name: str = None, raise_if_topic_missed: bool = False):
         """
         Remove subscriber from topic selected or from all if topic is None
 
+        :param raise_if_topic_missed:
         :param subscriber:
         :param topic_name:
         :return:
         """
 
-        for name in self._topics_subscriptions.keys():
+        if raise_if_topic_missed and isinstance(topic_name, str) and topic_name not in self.__topics.keys():
+            raise TopicNotFound(f"topic '{topic_name}' not found")
+
+        for name in self.__topics.keys():
 
             if topic_name is None or topic_name == name:
-                self._topics_subscriptions[name].subscribers.remove(subscriber)
-                subscriber.on_unsubscription(name)
+                self.__subscriptions[name].remove(subscriber)
+
 
     @abstractmethod
     async def put_event(self, topic_name: str, event: Event):

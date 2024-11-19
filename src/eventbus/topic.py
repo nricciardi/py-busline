@@ -23,13 +23,3 @@ class Topic:
     @property
     def priority(self) -> int:
         return self.__priority
-
-
-class TopicSubscriptions:
-    def __init__(self, topic: Topic, subscribers: list | None = None):
-
-        if subscribers is None:
-            subscribers = []
-
-        self.topic = topic
-        self.subscribers = subscribers
