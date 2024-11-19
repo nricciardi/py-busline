@@ -6,6 +6,11 @@ from src.eventbus.eventbus import EventBus
 
 
 class AsyncLocalEventBus(EventBus):
+    """
+    Async local eventbus (singleton)
+
+    Author: Nicola Ricciardi
+    """
 
     async def put_event(self, topic_name: str, event: Event):
 

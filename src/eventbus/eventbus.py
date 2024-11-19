@@ -8,12 +8,16 @@ from src.event.event import Event
 
 
 class EventBus(ABC):
+    """
+    Abstract class used as base for new eventbus implemented in local projects.
 
-    _instance = None    # singleton
+    Eventbus are *singleton*
 
-    def __init__(self):
-        self.__topics: Dict[str, Topic] = {}
-        self.__subscriptions: Dict[str, List[Subscriber]] = {}
+    Author: Nicola Ricciardi
+    """
+
+    # === SINGLETON pattern ===
+    _instance = None
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -21,9 +25,31 @@ class EventBus(ABC):
 
         return cls._instance
 
+    def __init__(self):
+
+        self.__subscriptions = None
+        self.__topics = None
+
+        self.reset_topics()
+
+    def reset_topics(self):
+        self.__topics: Dict[str, Topic] = {}
+        self.__subscriptions: Dict[str, List[Subscriber]] = {}
+
     def add_topic(self, topic: Topic):
         self.__topics[topic.name] = topic
         self.__subscriptions[topic.name] = []
+
+    def remove_topic(self, topic_name: str):
+        """
+        Remove topic by name
+
+        :param topic_name:
+        :return:
+        """
+
+        del self.__topics[topic_name]
+        del self.__subscriptions[topic_name]
 
     @property
     def topics(self) -> Dict[str, Topic]:

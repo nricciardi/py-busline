@@ -3,6 +3,11 @@ from src.event.event import Event
 
 
 class Subscriber(ABC):
+    """
+    Abstract class which can be implemented by your components which must be able to subscribe on eventbus
+
+    Author: Nicola Ricciardi
+    """
 
     @abstractmethod
     async def on_event(self, topic_name: str, event: Event):

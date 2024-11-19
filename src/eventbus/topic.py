@@ -1,6 +1,16 @@
 
 
 class Topic:
+    """
+    Topic of generic eventbus.
+
+    :param name: unique name of the topic
+    :param content_type: MIME type which describes content of the topic (e.g. "application/json")
+    :param description: simple topic description
+    :param priority: priority of message in topic related to other topics
+
+    Author: Nicola Ricciardi
+    """
 
     def __init__(self, name: str, content_type: str | None = None, description: str | None = None, priority: int = 0):
         self.__name = name

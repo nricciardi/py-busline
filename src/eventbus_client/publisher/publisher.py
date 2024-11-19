@@ -5,6 +5,11 @@ from src.eventbus.eventbus import EventBus
 
 
 class Publisher(ABC):
+    """
+    Abstract class which can be implemented by your components which must be able to publish on eventbus
+
+    Author: Nicola Ricciardi
+    """
 
     @abstractmethod
     async def _internal_publish(self, topic_name: str, event: Event):

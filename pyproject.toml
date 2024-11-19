@@ -1,10 +1,10 @@
 [project]
 name = "py-busline"
-version = "0.1.0"
+version = "0.2.0"
 authors = [
   { name="Nicola Ricciardi", email="ricciardincl@gmail.com" },
 ]
-description = "Simple but structured eventbus for Python"
+description = "Agnostic eventbus for Python"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [

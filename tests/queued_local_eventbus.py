@@ -1,41 +1,42 @@
 import asyncio
 import unittest
-from src.eventbus_client.subscriber.closure_subscriber import ClosureSubscriber
+from time import sleep
+
+from src.eventbus_client.publisher.local_eventbus_publisher import LocalEventBusPublisher
 from src.event.event import Event
-from src.eventbus_client.publisher import Publisher
 from src.eventbus.queued_local_eventbus import QueuedLocalEventBus
+from src.eventbus_client.subscriber.local_eventbus_closure_subscriber import LocalEventBusClosureSubscriber
 
 
 class TestEventBus(unittest.IsolatedAsyncioTestCase):
 
     async def test_queued_eventbus(self):
 
-        eventbus = QueuedLocalEventBus()
+        local_eventbus_instance = QueuedLocalEventBus()  # singleton
+        local_eventbus_instance2 = QueuedLocalEventBus()  # singleton
 
-        publisher = Publisher(eventbus)
+        self.assertIs(local_eventbus_instance, local_eventbus_instance2)  # check singleton
 
         event = Event()
-        received_event: Event = None
+        received_event = None
 
         def callback(e: Event):
             nonlocal received_event
 
             received_event = e
 
-        subscriber = ClosureSubscriber(callback)
+        subscriber = LocalEventBusClosureSubscriber(local_eventbus_instance, callback)
+        publisher = LocalEventBusPublisher(local_eventbus_instance2)
 
-        eventbus.add_subscriber(
-            "test",
-            subscriber
-        )
+        await subscriber.subscribe("test")
 
         await publisher.publish("test", event)
 
-        await asyncio.sleep(1)
+        sleep(2)
 
         self.assertEqual(event, received_event)
 
-        eventbus.remove_subscriber(subscriber)
+        await subscriber.unsubscribe()
         received_event = None
 
         await publisher.publish("test", event)

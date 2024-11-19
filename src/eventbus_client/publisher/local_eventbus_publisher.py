@@ -4,6 +4,11 @@ from src.eventbus_client.publisher.publisher import Publisher
 
 
 class LocalEventBusPublisher(Publisher):
+    """
+    Publisher which works with local eventbus, this class can be initialized and used stand-alone
+
+    Author: Nicola Ricciardi
+    """
 
     def __init__(self, eventbus_instance: EventBus):
         self._eventbus = eventbus_instance

@@ -2,16 +2,20 @@ import asyncio
 import logging
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
-
 from src.event.event import Event
 from src.eventbus.eventbus import EventBus
-from src.eventbus.topic import Topic
+
 
 MAX_WORKERS = 3
 MAX_QUEUE_SIZE = 0
 
 
 class QueuedLocalEventBus(EventBus):
+    """
+    Queued local eventbus (singleton). It uses a queue to store and forward events.
+
+    Author: Nicola Ricciardi
+    """
 
     def __init__(self, max_queue_size=MAX_QUEUE_SIZE, n_workers=MAX_WORKERS):
 
@@ -43,4 +47,4 @@ class QueuedLocalEventBus(EventBus):
                 return
 
             for subscriber in topic_subscriptions:
-                asyncio.run(subscriber.on_event(event))
+                asyncio.run(subscriber.on_event(topic_name, event))
