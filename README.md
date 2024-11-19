@@ -1,5 +1,3 @@
-from src.eventbus_client.eventbus_client import EventBusClient
-
 # Busline for Python
 
 Agnostic eventbus for Python.
