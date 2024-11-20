@@ -12,6 +12,8 @@ class ClosureSubscriber(Subscriber, ABC):
     """
 
     def __init__(self, on_event_callback: Callable[[Event], None]):
+        Subscriber.__init__(self)
+
         self.__on_event_callback = on_event_callback
 
     async def on_event(self, topic_name: str, event: Event):

@@ -13,5 +13,5 @@ class LocalEventBusClosureSubscriber(LocalEventBusSubscriber, ClosureSubscriber)
     """
 
     def __init__(self, eventbus_instance: EventBus, on_event_callback: Callable[[Event], None]):
+        LocalEventBusSubscriber.__init__(self, eventbus_instance)
         ClosureSubscriber.__init__(self, on_event_callback)
-        self._eventbus = eventbus_instance

@@ -1,5 +1,6 @@
 from src.event.event import Event
 from src.eventbus.eventbus import EventBus
+from src.eventbus_client.exceptions import EventBusClientNotConnected
 from src.eventbus_client.publisher.publisher import Publisher
 
 
@@ -11,9 +12,24 @@ class LocalEventBusPublisher(Publisher):
     """
 
     def __init__(self, eventbus_instance: EventBus):
-        self._eventbus = eventbus_instance
+        Publisher.__init__(self)
 
-    async def _internal_publish(self, topic_name: str, event: Event):
+        self._eventbus = eventbus_instance
+        self._connected = False
+
+    async def connect(self):
+        self._connected = True
+
+    async def disconnect(self):
+        self._connected = False
+
+    async def _internal_publish(self, topic_name: str, event: Event, raise_if_not_connected: bool = False, **kwargs):
+
+        if raise_if_not_connected and not self._connected:
+            raise EventBusClientNotConnected()
+        else:
+            await self.connect()
+
         self.on_publishing(topic_name, event)
         await self._eventbus.put_event(topic_name, event)
         self.on_published(topic_name, event)

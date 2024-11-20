@@ -6,11 +6,9 @@ from src.eventbus_client.subscriber.local_eventbus_subscriber import LocalEventB
 
 class LocalEventBusClient(LocalEventBusPublisher, LocalEventBusSubscriber, ABC):
     """
-    Abstract eventbus client class for local eventbus which should be implemented to create a generic local eventbus client
+    Eventbus client which should used by components which wouldn't be a publisher/subscriber, but they need them
 
     Author: Nicola Ricciardi
     """
 
-    def __init__(self, eventbus_instance: EventBus):
-        LocalEventBusPublisher.__init__(self, eventbus_instance)
-        LocalEventBusSubscriber.__init__(self, eventbus_instance)
+    # TODO

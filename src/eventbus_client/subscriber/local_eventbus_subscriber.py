@@ -1,5 +1,6 @@
 from abc import ABC
 from src.eventbus.eventbus import EventBus
+from src.eventbus_client.exceptions import EventBusClientNotConnected
 from src.eventbus_client.subscriber.subscriber import Subscriber
 
 
@@ -11,10 +12,29 @@ class LocalEventBusSubscriber(Subscriber, ABC):
     """
 
     def __init__(self, eventbus_instance: EventBus):
-        self._eventbus = eventbus_instance
+        Subscriber.__init__(self)
 
-    async def _internal_subscribe(self, topic_name: str):
+        self._eventbus = eventbus_instance
+        self._connected = False
+
+    async def connect(self):
+        self._connected = True
+
+    async def disconnect(self):
+        self._connected = False
+
+    async def _internal_subscribe(self, topic_name: str, raise_if_not_connected: bool = False, **kwargs):
+        if raise_if_not_connected and not self._connected:
+            raise EventBusClientNotConnected()
+        else:
+            await self.connect()
+
         self._eventbus.add_subscriber(topic_name, self)
 
-    async def _internal_unsubscribe(self, topic_name: str | None = None):
+    async def _internal_unsubscribe(self, topic_name: str | None = None, raise_if_not_connected: bool = False, **kwargs):
+        if raise_if_not_connected and not self._connected:
+            raise EventBusClientNotConnected()
+        else:
+            await self.connect()
+
         self._eventbus.remove_subscriber(self, topic_name)
