@@ -2,10 +2,10 @@ import asyncio
 import unittest
 from time import sleep
 
-from src.eventbus_client.publisher.local_eventbus_publisher import LocalEventBusPublisher
-from src.event.event import Event
-from src.eventbus.queued_local_eventbus import QueuedLocalEventBus
-from src.eventbus_client.subscriber.local_eventbus_closure_subscriber import LocalEventBusClosureSubscriber
+from busline.eventbus_client.publisher.local_eventbus_publisher import LocalEventBusPublisher
+from busline.event.event import Event
+from busline.eventbus.queued_local_eventbus import QueuedLocalEventBus
+from busline.eventbus_client.subscriber.local_eventbus_closure_subscriber import LocalEventBusClosureSubscriber
 
 
 class TestQueuedLocalEventBus(unittest.IsolatedAsyncioTestCase):

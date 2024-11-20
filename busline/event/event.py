@@ -1,6 +1,6 @@
 import uuid
-from src.event.event_content import EventContent
-from src.event.event_metadata import EventMetadata
+from busline.event.event_content import EventContent
+from busline.event.event_metadata import EventMetadata
 
 
 class Event:

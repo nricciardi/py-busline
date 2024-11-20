@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
-from src.eventbus.exceptions import TopicNotFound
-from src.eventbus_client.subscriber.subscriber import Subscriber
-from src.eventbus.topic import Topic
-from src.event.event import Event
+from busline.eventbus.exceptions import TopicNotFound
+from busline.eventbus_client.subscriber.subscriber import Subscriber
+from busline.eventbus.topic import Topic
+from busline.event.event import Event
 
 
 

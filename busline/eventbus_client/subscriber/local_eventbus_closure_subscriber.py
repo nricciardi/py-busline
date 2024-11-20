@@ -1,8 +1,8 @@
 from typing import Callable
-from src.event.event import Event
-from src.eventbus.eventbus import EventBus
-from src.eventbus_client.subscriber.closure_event_listener import ClosureEventListener
-from src.eventbus_client.subscriber.local_eventbus_subscriber import LocalEventBusSubscriber
+from busline.event.event import Event
+from busline.eventbus.eventbus import EventBus
+from busline.eventbus_client.subscriber.closure_event_listener import ClosureEventListener
+from busline.eventbus_client.subscriber.local_eventbus_subscriber import LocalEventBusSubscriber
 
 
 class LocalEventBusClosureSubscriber(LocalEventBusSubscriber, ClosureEventListener):

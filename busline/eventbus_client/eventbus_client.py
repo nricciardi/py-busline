@@ -1,9 +1,9 @@
 from uuid import uuid4
-from src.event.event import Event
-from src.eventbus_client.eventbus_connector import EventBusConnector
-from src.eventbus_client.publisher.publisher import Publisher
-from src.eventbus_client.subscriber.event_listener import EventListener
-from src.eventbus_client.subscriber.subscriber import Subscriber
+from busline.event.event import Event
+from busline.eventbus_client.eventbus_connector import EventBusConnector
+from busline.eventbus_client.publisher.publisher import Publisher
+from busline.eventbus_client.subscriber.event_listener import EventListener
+from busline.eventbus_client.subscriber.subscriber import Subscriber
 
 
 class EventBusClient(EventBusConnector):

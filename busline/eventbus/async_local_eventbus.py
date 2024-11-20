@@ -1,8 +1,8 @@
 import logging
 import asyncio
 
-from src.event.event import Event
-from src.eventbus.eventbus import EventBus
+from busline.event.event import Event
+from busline.eventbus.eventbus import EventBus
 
 
 class AsyncLocalEventBus(EventBus):

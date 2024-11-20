@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.event.event import Event
+from busline.event.event import Event
 
 
 class EventListener(ABC):

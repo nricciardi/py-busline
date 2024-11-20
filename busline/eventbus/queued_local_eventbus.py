@@ -2,8 +2,8 @@ import asyncio
 import logging
 from queue import Queue
 from concurrent.futures import ThreadPoolExecutor
-from src.event.event import Event
-from src.eventbus.eventbus import EventBus
+from busline.event.event import Event
+from busline.eventbus.eventbus import EventBus
 
 
 MAX_WORKERS = 3

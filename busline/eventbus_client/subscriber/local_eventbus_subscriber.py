@@ -1,7 +1,7 @@
 from abc import ABC
-from src.eventbus.eventbus import EventBus
-from src.eventbus_client.exceptions import EventBusClientNotConnected
-from src.eventbus_client.subscriber.subscriber import Subscriber
+from busline.eventbus.eventbus import EventBus
+from busline.eventbus_client.exceptions import EventBusClientNotConnected
+from busline.eventbus_client.subscriber.subscriber import Subscriber
 
 
 class LocalEventBusSubscriber(Subscriber, ABC):

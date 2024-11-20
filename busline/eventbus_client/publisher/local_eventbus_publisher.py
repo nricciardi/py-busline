@@ -1,7 +1,7 @@
-from src.event.event import Event
-from src.eventbus.eventbus import EventBus
-from src.eventbus_client.exceptions import EventBusClientNotConnected
-from src.eventbus_client.publisher.publisher import Publisher
+from busline.event.event import Event
+from busline.eventbus.eventbus import EventBus
+from busline.eventbus_client.exceptions import EventBusClientNotConnected
+from busline.eventbus_client.publisher.publisher import Publisher
 
 
 class LocalEventBusPublisher(Publisher):
