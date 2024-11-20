@@ -76,21 +76,21 @@ class EventBusClient(EventBusConnector):
         Alias of `client.publisher.publish(...)`
         """
 
-        return self.__publisher.publish(topic_name, event, **kwargs)
+        await self.__publisher.publish(topic_name, event, **kwargs)
 
     async def subscribe(self, topic_name: str, **kwargs):
         """
         Alias of `client.subscriber.subscribe(...)`
         """
 
-        return self.__subscriber.subscribe(topic_name, **kwargs)
+        await self.__subscriber.subscribe(topic_name, **kwargs)
 
     async def unsubscribe(self, topic_name: str | None = None, **kwargs):
         """
         Alias of `client.subscriber.unsubscribe(...)`
         """
 
-        return self.__subscriber.unsubscribe(topic_name, **kwargs)
+        await self.__subscriber.unsubscribe(topic_name, **kwargs)
 
     async def on_event(self, topic_name: str, event: Event, **kwargs):
         if self.__event_listener is not None:

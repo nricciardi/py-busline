@@ -1,6 +1,7 @@
 import unittest
 from src.eventbus.async_local_eventbus import AsyncLocalEventBus
 from src.eventbus_client.eventbus_client import EventBusClient
+from src.eventbus_client.local_eventbus_client import LocalEventBusClient
 from src.eventbus_client.publisher.local_eventbus_publisher import LocalEventBusPublisher
 from src.event.event import Event
 from src.eventbus_client.subscriber.closure_event_listener import ClosureEventListener
@@ -9,7 +10,7 @@ from src.eventbus_client.subscriber.local_eventbus_closure_subscriber import Loc
 
 class TestLocalEventBusClient(unittest.IsolatedAsyncioTestCase):
 
-    async def test_async_eventbus(self):
+    async def test_raw_client(self):
 
         local_eventbus_instance = AsyncLocalEventBus()       # singleton
 
@@ -43,6 +44,30 @@ class TestLocalEventBusClient(unittest.IsolatedAsyncioTestCase):
 
         self.assertIs(received_event, None)
 
+
+    async def test_local_client(self):
+        received_event = None
+        event = Event()
+
+        def client_callback(topic_name: str, e: Event):
+            nonlocal received_event
+
+            received_event = e
+
+        client = LocalEventBusClient(client_callback)
+
+        await client.subscribe("test")
+
+        await client.publish("test", event)
+
+        self.assertIs(event, received_event)
+
+        await client.unsubscribe()
+        received_event = None
+
+        await client.publish("test", event)
+
+        self.assertIs(received_event, None)
 
 if __name__ == '__main__':
     unittest.main()
