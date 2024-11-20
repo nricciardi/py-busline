@@ -3,9 +3,10 @@ from uuid import uuid4
 
 from src.event.event import Event
 from src.eventbus_client.eventbus_connector import EventBusConnector
+from src.eventbus_client.subscriber.event_listener import EventListener
 
 
-class Subscriber(EventBusConnector, ABC):
+class Subscriber(EventBusConnector, EventListener, ABC):
     """
     Abstract class which can be implemented by your components which must be able to subscribe on eventbus
 
@@ -14,16 +15,8 @@ class Subscriber(EventBusConnector, ABC):
 
     def __init__(self, subscriber_id: str = str(uuid4())):
         EventBusConnector.__init__(self, subscriber_id)
+        EventListener.__init__(self)
 
-    @abstractmethod
-    async def on_event(self, topic_name: str, event: Event):
-        """
-        Callback called when new event arrives
-
-        :param topic_name:
-        :param event:
-        :return:
-        """
 
     @abstractmethod
     async def _internal_subscribe(self, topic_name: str, **kwargs):
