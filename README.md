@@ -2,6 +2,8 @@
 
 Agnostic eventbus for Python.
 
+Official eventbus library for [Orbitalis](https://github.com/nricciardi/orbitalis)
+
 ## Local EventBus
 
 ### Using Publisher/Subscriber
