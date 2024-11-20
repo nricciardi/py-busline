@@ -12,6 +12,14 @@ class EventBusConnector(ABC):
     def __init__(self, connector_id: str = str(uuid4())):
         self._id = connector_id
 
+    @property
+    def id(self) -> str:
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = value
+
     @abstractmethod
     async def connect(self):
         """

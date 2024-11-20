@@ -5,7 +5,7 @@ from src.event.event import Event
 from src.eventbus_client.subscriber.local_eventbus_closure_subscriber import LocalEventBusClosureSubscriber
 
 
-class TestEventBus(unittest.IsolatedAsyncioTestCase):
+class TestAsyncLocalEventBus(unittest.IsolatedAsyncioTestCase):
 
     async def test_async_eventbus(self):
 
@@ -17,7 +17,7 @@ class TestEventBus(unittest.IsolatedAsyncioTestCase):
         event = Event()
         received_event = None
 
-        def callback(e: Event):
+        def callback(t: str, e: Event):
             nonlocal received_event
 
             received_event = e
@@ -29,14 +29,14 @@ class TestEventBus(unittest.IsolatedAsyncioTestCase):
 
         await publisher.publish("test", event)
 
-        self.assertEqual(event, received_event)
+        self.assertIs(event, received_event)
 
         await subscriber.unsubscribe()
         received_event = None
 
         await publisher.publish("test", event)
 
-        self.assertEqual(received_event, None)
+        self.assertIs(received_event, None)
 
 
 if __name__ == '__main__':

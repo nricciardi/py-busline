@@ -5,7 +5,7 @@ from src.event.event import Event
 class EventListener(ABC):
 
     @abstractmethod
-    async def on_event(self, topic_name: str, event: Event):
+    async def on_event(self, topic_name: str, event: Event, **kwargs):
         """
         Callback called when new event arrives
 
