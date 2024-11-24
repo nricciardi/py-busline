@@ -4,6 +4,11 @@ from busline.event.event_metadata import EventMetadata
 
 
 class Event:
+    """
+    :param content:
+
+    Author: Nicola Ricciardi
+    """
 
     def __init__(self, content: EventContent = None, metadata: EventMetadata = EventMetadata()):
 
