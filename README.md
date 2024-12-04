@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> Migrate to [Orbitalis framework](https://github.com/orbitalis-framework/py-busline)
+
+
+
 # Busline for Python
 
 Agnostic eventbus for Python.
